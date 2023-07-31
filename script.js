@@ -1,59 +1,63 @@
-let currentPlayer = "x";
-let board = document.getElementsByClassName("cell");
-let endMessage = document.getElementById("end");
+const gameBoard = document.querySelector("#gameboard")
+const infoDisplay = document.querySelector("#info")
+const startCells = [
+    "", "", "", "", "", "", "", "", ""
+]
 
-function placeSymbol(cell) {
-    if (cell.textContent !== "") {
-        return; // Ako je polje već označeno, ne radimo ništa
-    }
+let go = "circle"
+infoDisplay.textContent = "Circle goes first"
 
-    // Postavljanje trenutnog simbola (X ili O) u polje igre
-    cell.textContent = currentPlayer;
-    cell.classList.add(currentPlayer);
+function createBoard() {
+    startCells.forEach((_cell, index) => {
+        const cellElement = document.createElement('div')
+        cellElement.classList.add('square')
+        cellElement.id = index
+        cellElement.addEventListener('click', addGo)
+        gameBoard.append(cellElement)
 
-    // Provera da li je igra završena i prikazivanje poruke ako jeste
-    if (checkGameOver()) {
-        endMessage.style.display = "block";
-    }
-
-    // Promena igrača na potezu
-    currentPlayer = currentPlayer === "x" ? "o" : "x";
+    })
 }
 
-function checkGameOver() {
-    // Provera pobednika
-    const winningCombination = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontalne kombinacije
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertikalne kombinacije
-        [0, 4, 8], [2, 4, 6] // Dijagonalne kombinacije
-    ];
+createBoard()
 
-    for (const combination of winningCombination) {
-        const [a, b, c] = combination;
-        if (board[a].textContent === board[b].textContent &&
-            board[a].textContent === board[c].textContent &&
-            board[a].textContent !== "") {
-            return true; // Pobednik je pronađen
+function addGo(e){
+    const goDisplay = document.createElement('div')
+    goDisplay.classList.add(go)
+    e.target.append(goDisplay)
+    go = go === "circle" ? "cross" : "circle"
+    infoDisplay.textContent = "it is now " + go + "'s go."
+    e.target.removeEventListener("click", addGo)
+    checkScore()
+}
+
+function checkScore() {
+    const allSquares = document.querySelectorAll(".square")
+    const winnigCombos = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ]
+
+    winnigCombos.forEach(array => {
+        const circleWins = array.every(cell => allSquares[cell].firstChild?.classList.contains('circle'))
+
+        if(circleWins) {
+           infoDisplay.textContent = "Circle Wins!"
+           allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))
+           return
         }
-    }
+    })
 
-    // Provera da li je nerešeno
-    for (const cell of board) {
-        if (cell.textContent === "") {
-            return false; // Igra nije završena, ima još praznih polja
+    winnigCombos.forEach(array => {
+        const crossWins = array.every(cell => allSquares[cell].firstChild?.classList.contains('cross'))
+
+        if(crossWins) {
+           infoDisplay.textContent = "Cross Wins!"
+           allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))
+           return
         }
-    }
+    })
 
-    return true; // Igra je nerešena
+    
 }
 
-function resetBoard() {
-    // Resetovanje table za novu igru
-    for (const cell of board) {
-        cell.textContent = "";
-        cell.classList.remove("x", "o");
-    }
-
-    endMessage.style.display = "none";
-    currentPlayer = "x";
-}

@@ -1,52 +1,64 @@
-html, body {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
+body {
     margin: 0;
     padding: 0;
-}
-
-.board {
-    display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
-    gap: 5px;
-    margin: 50px auto;
-}
-
-.cell {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 100%;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+#gameboard {
+    width: 300px;
+    height: 300px;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    border: solid 1px black;
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    border: solid 2px black;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    border: 15px solid blue;
+    box-sizing: border-box;
+}
+
+.cross {
+    height: 90px;
+    width: 90px;
+    position: relative;
+    transform: rotate(45deg);
+}
+
+.cross:before, .cross:after {
+    content: "";
+    position: absolute;
+    background-color: red;
+}
+
+.cross:before {
+    left: 50%;
+    width: 30%;
+    margin-left: -15%;
     height: 100%;
-    background-color: #f2f2f2;
-    font-size: 48px;
-    font-weight: bold;
-    cursor: pointer;
 }
 
-.cell.x {
-    color: red;
-}
-
-.cell.o {
-    color: blue;
-}
-
-#end {
-    display: none;
-    text-align: center;
-    margin-top: 20px;
-}
-
-#message {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-input[type="button"] {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+.cross:after {
+    top: 50%;
+    height: 30%;
+    margin-top: -15%;
+    width: 100%;
 }

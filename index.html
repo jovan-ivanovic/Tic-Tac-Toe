@@ -7,21 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="board">
-        <div class="cell" onclick="placeSymbol(this)"></div>
-        <div class="cell" onclick="placeSymbol(this)"></div>
-        <div class="cell" onclick="placeSymbol(this)"></div>
-        <div class="cell" onclick="placeSymbol(this)"></div>
-        <div class="cell" onclick="placeSymbol(this)"></div>
-        <div class="cell" onclick="placeSymbol(this)"></div>
-        <div class="cell" onclick="placeSymbol(this)"></div>
-        <div class="cell" onclick="placeSymbol(this)"></div>
-        <div class="cell" onclick="placeSymbol(this)"></div>
-    </div>
-    <div id="end">
-        <div id="message">Igra je gotova. Igraj ponovo!</div>
-        <input type="button" value="Igraj ponovo" onclick="resetBoard()" />
-    </div>
+
+    <div id="gameboard"></div>
+        <p id="info"></p>
+
     <script src="script.js"></script>
 </body>
 </html>
